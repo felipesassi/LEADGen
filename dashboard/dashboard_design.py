@@ -15,8 +15,9 @@ pd.set_option('max_colwidth', 50)
 @st.cache
 def load_data():
     df = pd.read_csv("data/data_final.csv")
+    n = int(df.shape[0]/4)
     or_df = pd.read_csv("data/original_data_formated.csv")
-    return df, or_df
+    return df, or_df, n
 
 def open_file():
     file = st.file_uploader("Selecione o banco de dados de clientes.")
@@ -72,8 +73,8 @@ def search_company(id, database):
 
 def get_table_download_link(df):
     csv = df.to_csv(index=False)
-    b64 = base64.b64encode(csv.encode()).decode()  # some strings <-> bytes conversions necessary here
-    href = f'<center><h3><a href="data:file/csv;base64,{b64}">Realizar download das predições</a></h3></center>'
+    b64 = base64.b64encode(csv.encode()).decode() 
+    href = f'<center><h3><a href="data:file/csv;base64,{b64}" download="data.csv">Realizar download das predições</a></h3></center>'
     return href
 
 if __name__ == "__main__":

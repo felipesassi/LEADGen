@@ -27,7 +27,8 @@ class LeadGenerator():
         inertia_values = []
         Model = KMeans()
         Visualizer = KElbowVisualizer(Model, k = (3, 15), metric = "silhouette")
-        Visualizer.fit(self.train_data)        
+        Visualizer.fit(self.train_data)     
+        plt.close()  
         elbow_value = Visualizer.elbow_value_
         if elbow_value == None:
             self.clusters = 5
@@ -78,6 +79,7 @@ class LeadGenerator():
         prediction = np.array(prediction)
         prediction = 0.5*(1 + prediction)
         pred_df = pd.DataFrame({"ID": client_data_id, "Similarity": prediction, "Cluster": prediction_cluster})
+        pred_df = pred_df.dropna()
         return pred_df
 
 if __name__ == "__main__":
