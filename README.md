@@ -58,13 +58,13 @@ Para criação da *dashboard* a biblioteca [streamlit](streamlit.io) foi utiliza
 
 A *dashboard* desenvolvida conta com três páginas:
 
-- Predição de clientes: aqui é onde é importado o banco de dados para determinação dos *clusters* e predição de possíveis novos clientes. Além disso essa etapa permite a realização do *donwload* das predições obtidas;
+- Predição de clientes: aqui é onde é importado o banco de dados para determinação dos *clusters* e predição de possíveis novos clientes. Além disso essa etapa permite a a visualização gráfica e a realização do *download* das predições obtidas;
 - Análise de resultados: nessa parte pode-se verificar os resultados de maneira detalhada, selecionando os níveis de similaridade desejados.
 - Análise de clientes: nessa parte, por meio do identificador da empresa pode-se obter informações detalhadas acerca da mesma.
 
 ### Predição de clientes
 
-A figura abaixo aprensenta a interface dessa seção.
+A figura abaixo aprensenta a interface dessa seção. Por meio da técnica de decomposicação em componentes principais foi possível gerar uma visualização para os dados e seus *clusters*.
 
 ![Tela 1](/images/tela_1.png)
 
