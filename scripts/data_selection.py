@@ -15,17 +15,18 @@ def remove_outliers(dataframe):
     id_final = df[sel]["id"].values
     return dataframe[dataframe["id"].isin(id_final)].reset_index(drop = True)
 
-def separate_data(dataframe, static_portfolio, train=True):
+def separate_data(dataframe, static_portfolio, train=True, train_perc=0.5):
     dataframe = dataframe.copy()
     total_ids = len(list(static_portfolio["id"].values))
     port_id = list(static_portfolio["id"].values)
-    static_portfolio = shuffle(static_portfolio).reset_index(drop = True)
-    train_id = list(static_portfolio["id"].values)
+    static_portfolio = shuffle(static_portfolio, random_state = 0).reset_index(drop = True)
+    n_rows = int(train_perc*static_portfolio.shape[0])
+    train_id = list(static_portfolio["id"].values[:n_rows])
     dataframe["emp"] = dataframe["id"].apply(lambda x: 1 if x in port_id else 0)
     train_df = dataframe[dataframe["id"].isin(train_id)].reset_index(drop = True)
     train_df = remove_outliers(train_df)
     if train == True:
-        other_df = dataframe
+        other_df = dataframe[~dataframe["id"].isin(train_id)]
         x_val, x_test, y_val, y_test = train_test_split(other_df, 
                                                         other_df["emp"].values, 
                                                         test_size = 0.5,

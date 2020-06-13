@@ -8,8 +8,7 @@ class Metrics():
         self.y_pred = dataframe["Similarity"]
         self.beta = beta
 
-    def show_model_performance(self):
-        n_points = 10
+    def show_model_performance(self, n_points):
         thr = np.linspace(0, 1, n_points)
         precision = np.zeros(n_points)
         recall = np.zeros(n_points)
@@ -19,17 +18,18 @@ class Metrics():
             y_pred[y_pred < t] = 0
             y_pred[y_pred >= t] = 1
             precision[i] = precision_score(self.y_train, y_pred, zero_division = 0)
-            recall[i] = recall_score(self.y_train, y_pred,zero_division = 0)
+            recall[i] = recall_score(self.y_train, y_pred, zero_division = 0)
             fb_score[i] = fbeta_score(self.y_train, y_pred, beta = self.beta, zero_division = 0)
-        self.__plot_metrics(precision, recall, fb_score)
+        self.__plot_metrics(thr, precision, recall, fb_score)
 
-    def __plot_metrics(self, precision, recall, fb_score):
-        plt.plot(precision)
-        plt.plot(recall)
-        plt.plot(fb_score)
+    def __plot_metrics(self, thr, precision, recall, fb_score):
+        plt.figure(figsize = (10, 5))
+        plt.plot(thr, 100*precision)
+        plt.plot(thr, 100*recall)
+        plt.plot(thr, 100*fb_score)
         plt.legend(["Precision", "Recall", "FB_Score"])
         plt.title("Model performance")
-        plt.xlabels("Threshold")
+        plt.xlabel("Threshold")
         plt.ylabel("Metrics value (%)")
         plt.show()
 
