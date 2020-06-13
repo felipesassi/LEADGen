@@ -26,7 +26,7 @@ def main():
             LG = LeadGenerator(train_df)
             LG.fit()
             st.markdown("<center><h3>Apresentação gráfica das empresas clusterizadas</center></h3>", unsafe_allow_html = True)
-            get_cluster_plot(LG, train_df)
+            get_cluster_plot(LG, train_df, or_df[or_df["id"].isin(train_df["id"])].reset_index(drop = True))
             st.markdown("<center><h3>Centros de cada cluster</h3></center>", unsafe_allow_html = True)
             get_clusters_examples(LG, train_df, or_df)
             st.markdown("<center><h3>Predição de possíveis clientes</center></h3>", unsafe_allow_html = True)

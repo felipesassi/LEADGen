@@ -28,14 +28,18 @@ def open_file():
         st.write("Nenhum arquivo selecionado!")
         return None
 
-def get_cluster_plot(model, dataframe):
+def get_cluster_plot(model, dataframe, dataframe_or):
     P_C_A = PCA(n_components = 2)
     P_C_A.fit(dataframe.drop(columns = ["id", "emp"]))
     data = P_C_A.transform(dataframe.drop(columns = ["id", "emp"]))
     cluster = model.KM.predict(dataframe.drop(columns = ["id", "emp"]))
     data = pd.DataFrame(data = {"x": data[:, 0], "y": data[:, 1], "Cluster": cluster})
     data["Cluster"] = data["Cluster"].apply(lambda x: str(x))
-    fig = px.scatter(data, x = "x", y = "y", color = "Cluster")
+    columns_name = ["Natureza jurídica", "SG - UF", "Ramo", "Setor", "Idade da empresa", "Divisão", "Segmento", "SG - UF - Matriz",
+    "Saúde tributária", "Nível de atividade", "Meso região", "Quantidade de sócios", "Faturamento estimado", "Quantidade de filiais", "Identificador"]
+    dataframe_or.columns = columns_name
+    data = pd.concat([data, dataframe_or], axis = 1)
+    fig = px.scatter(data, x = "x", y = "y", color = "Cluster", hover_data = ["Faturamento estimado", "Ramo", "SG - UF", "Natureza jurídica"])
     fig.update_xaxes(title_text="PCA_1")
     fig.update_yaxes(title_text="PCA_2")
     fig.update_layout(coloraxis_showscale=False, showlegend=True)
